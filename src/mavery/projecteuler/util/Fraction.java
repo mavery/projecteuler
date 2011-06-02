@@ -10,10 +10,10 @@ package mavery.projecteuler.util;
 public final class Fraction
 {
 	/** Numerator */
-	private int num;
+	private final int num;
 
 	/** Denominator */
-	private int den;
+	private final int den;
 
 	/** A precomputed reduced fraction */
 	private Fraction reduced;
