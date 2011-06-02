@@ -23,8 +23,12 @@ public class EulerUtils
 	 */
 	public static boolean isPrime(long input)
 	{
+		if (input == 2L)
+		{
+			return true;
+		}
 		long limit = (long) Math.sqrt(input);
-		for (long l = 2; l <= limit; l++)
+		for (long l = 3; l <= limit; l += 2)
 		{
 			if (input % l == 0)
 			{
