@@ -1,19 +1,20 @@
 package mavery.projecteuler.util;
 
 /**
- * A class to represent an immutable fraction.
+ * A class to represent an immutable fraction. Class is final to prevent
+ * creating subclasses which could break immutability.
  * 
  * @author mavery
  * 
  */
-public class Fraction
+public final class Fraction
 {
 	/** Numerator */
 	private int num;
 
 	/** Denominator */
 	private int den;
-	
+
 	/** A precomputed reduced fraction */
 	private Fraction reduced;
 
@@ -75,7 +76,7 @@ public class Fraction
 			else
 			{
 				int gcd = EulerUtils.gcd(Math.abs(num), Math.abs(den));
-				
+
 				if (den < 0)
 				{
 					reduced = new Fraction(-num / gcd, -den / gcd);
@@ -102,9 +103,9 @@ public class Fraction
 		}
 		Fraction f1 = this.reduce();
 		Fraction f2 = ((Fraction) o).reduce();
-		return (f1.num == f2.num) && (f1.den == f2.den);	
+		return (f1.num == f2.num) && (f1.den == f2.den);
 	}
-	
+
 	/**
 	 * Returns a hashcode for the fraction.
 	 */
@@ -114,14 +115,16 @@ public class Fraction
 		Fraction reduced = reduce();
 		return reduced.num ^ reduced.den;
 	}
-	
+
 	/**
 	 * Returns this * f. Result is not reduced at all. Beware, could overflow
-	 * @param f Fraction, not null
-	 * @return. New fraction which is equal to this * f. 
+	 * 
+	 * @param f
+	 *            Fraction, not null
+	 * @return. New fraction which is equal to this * f.
 	 */
 	public Fraction multiply(Fraction f)
 	{
-		return new Fraction(this.num * f.num , this.den * f.den);
+		return new Fraction(this.num * f.num, this.den * f.den);
 	}
 }
