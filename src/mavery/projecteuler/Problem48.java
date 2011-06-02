@@ -26,7 +26,7 @@ public class Problem48
 		System.out.println(result);
 	}
 
-	public static BigInteger lastTenDigitPow(long n)
+	public static BigInteger lastTenDigitPow(int n)
 	{
 		BigInteger bigN = BigInteger.valueOf(n);
 		return bigN.modPow(bigN, MOD_FACTOR);
