@@ -21,10 +21,6 @@ public class Problem79
 	 * the file so as to determine the shortest possible secret passcode of
 	 * unknown length.
 	 */
-	/**
-	 * @param args
-	 * @throws Exception
-	 */
 	public static void main(String[] args) throws Exception
 	{
 		// Note: It's trivial to solve this one by hand. I'm writing this code
