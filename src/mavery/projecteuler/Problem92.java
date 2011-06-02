@@ -4,7 +4,8 @@ public class Problem92
 {
 
 	public static final int LIMIT = 10000000;
-	
+	public static final int MAX_SQUARE_DIGITS = 9 * 9 * 7;
+
 	private static int[] storedResults;
 
 	/**
@@ -13,7 +14,7 @@ public class Problem92
 	 * 
 	 * For example,
 	 * 
-	 * 44 32 13 10 1 1 
+	 * 44 32 13 10 1 1
 	 * 
 	 * 85 89 145 42 20 4 16 37 58 89
 	 * 
@@ -25,25 +26,27 @@ public class Problem92
 	 */
 	public static void main(String[] args)
 	{
-		storedResults = new int[LIMIT];
-		storedResults[0] = -1;
-		storedResults[88] = 1;
-		
+		storedResults = new int[MAX_SQUARE_DIGITS];
+		storedResults[0] = 1;
+		storedResults[88] = 89;
+
 		int result = 0;
 		for (int i = 1; i < LIMIT; i++)
 		{
 			if (chainReaches89(i))
 			{
-				result++;		
+				result++;
 			}
 		}
 
 		System.out.println(result);
 	}
-	
+
 	/**
 	 * Returns true if the number chain eventually reaches 89
-	 * @param n Starting number in the chain
+	 * 
+	 * @param n
+	 *            Starting number in the chain
 	 * @return True if the number chain reaches 89, false if it reaches 1
 	 */
 	public static boolean chainReaches89(int n)
@@ -51,10 +54,13 @@ public class Problem92
 		int i = n;
 		while (true)
 		{
-			if (storedResults[i - 1] != 0)
+			if (i <= MAX_SQUARE_DIGITS && storedResults[i - 1] != 0)
 			{
-				storedResults[n - 1] = storedResults[i - 1];
-				return storedResults[n - 1] == 1;
+				if (n <= MAX_SQUARE_DIGITS)
+				{
+					storedResults[n - 1] = storedResults[i - 1];
+				}
+				return storedResults[i - 1] == storedResults[88];
 			}
 
 			int temp = 0;
@@ -67,5 +73,4 @@ public class Problem92
 			i = temp;
 		}
 	}
-
 }
