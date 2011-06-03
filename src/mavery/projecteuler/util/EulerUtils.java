@@ -248,18 +248,26 @@ public class EulerUtils
 	}
 
 	/**
-	 * Returns true if b is a permutation of a.
+	 * Returns true if all the arguments are permutations of each other.
 	 * 
 	 * @param a
 	 *            must be >= 0
-	 * @param b
-	 *            must be >= 0
-	 * @return true if the decimal representation of b is a permutation of the
-	 *         decimal representation of a. false otherwise.
+	 * @param other
+	 *            must all be >= 0
+	 * @return true if the decimal representation of all longs in other are
+	 *         permutations of the decimal representation of a. false otherwise.
 	 */
-	public static boolean arePermutations(long a, long b)
+	public static boolean arePermutations(long a, long... other)
 	{
-		return Arrays.equals(getDigits(a), getDigits(b));
+		int[] aDigits = getDigits(a);
+		for (int i = 0; i < other.length; i++)
+		{
+			if (!Arrays.equals(aDigits, getDigits(other[i])))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
