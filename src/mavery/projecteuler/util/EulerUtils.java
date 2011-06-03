@@ -27,6 +27,10 @@ public class EulerUtils
 		{
 			return true;
 		}
+		if ((input & 1) == 0)
+		{
+			return false;
+		}
 		long limit = (long) Math.sqrt(input);
 		for (long l = 3; l <= limit; l += 2)
 		{
