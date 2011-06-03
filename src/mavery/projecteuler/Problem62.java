@@ -1,14 +1,13 @@
 package mavery.projecteuler;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import mavery.projecteuler.util.EulerUtils;
+import mavery.projecteuler.util.DigitCount;
 
 public class Problem62
 {
 
-	public static final int INITIAL_MAX = 1000;
 	public static final int NUM_PERMS = 5;
 
 	/**
@@ -22,42 +21,44 @@ public class Problem62
 	 */
 	public static void main(String[] args)
 	{
-		List<Long> cubes = new ArrayList<Long>();
-		for (int max = INITIAL_MAX; true; max *= 2)
+		System.out.println(new Problem62().solve(NUM_PERMS));
+	}
+
+	/**
+	 * Returns the lowest cubic integer that is a permutation of (perms - 1)
+	 * other cubic numbers.
+	 */
+	public long solve(int perms)
+	{
+		Map<DigitCount, PermutationCount> cubes = new HashMap<DigitCount, PermutationCount>();
+		for (long n = 1; true; n++)
 		{
-			System.out.println(max);
-			addCubes(cubes, max);
-			
-			for (int i = 1; i < cubes.size(); i++)
+			long nCubed = n * n * n;
+			DigitCount dc = new DigitCount(nCubed);
+			if (cubes.containsKey(dc))
 			{
-				int count = 1;
-				
-				int limit = (int) Math.pow(Math.pow(10, (((int)Math.log10(cubes.get(i))) + 1)), 1.0 / 3.0);
-				for (int j = i + 1; j < cubes.size() && j <= limit; j++)
+				cubes.get(dc).count++;
+				if (cubes.get(dc).count == perms)
 				{
-					if (EulerUtils.arePermutations(cubes.get(i), cubes.get(j)))
-					{
-						count++;
-					}
-					if (count == NUM_PERMS)
-					{
-						System.out.printf("%d %d\n", i, cubes.get(i));
-						return;
-					}
+					return cubes.get(dc).lowestCube;
 				}
+			}
+			else
+			{
+				cubes.put(dc, new PermutationCount(nCubed, 1));
 			}
 		}
 	}
 
-	/**
-	 * Adds cubes to the array up to limit cubed.
-	 */
-	public static void addCubes(List<Long> toFill, int limit)
+	private class PermutationCount
 	{
-		for (long l = toFill.size(); l <= limit; l++)
+		long lowestCube;
+		int count;
+
+		PermutationCount(long lowestCube, int count)
 		{
-			toFill.add(l * l * l);
+			this.lowestCube = lowestCube;
+			this.count = count;
 		}
 	}
-
 }

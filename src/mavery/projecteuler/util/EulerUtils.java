@@ -259,28 +259,14 @@ public class EulerUtils
 	 */
 	public static boolean arePermutations(long a, long... other)
 	{
-		int[] aDigits = getDigits(a);
+		DigitCount aDigits = new DigitCount(a);
 		for (int i = 0; i < other.length; i++)
 		{
-			if (!Arrays.equals(aDigits, getDigits(other[i])))
+			if (!aDigits.equals(new DigitCount(other[i])))
 			{
 				return false;
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * Returns an array representing the digits in n
-	 */
-	private static int[] getDigits(long n)
-	{
-		int[] result = new int[10];
-		while (n != 0)
-		{
-			result[(int) (n % 10)]++;
-			n /= 10;
-		}
-		return result;
 	}
 }
