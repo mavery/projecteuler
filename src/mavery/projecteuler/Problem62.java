@@ -30,8 +30,11 @@ public class Problem62
 	 */
 	public long solve(int perms)
 	{
+		long result = Long.MAX_VALUE;
+		long lastToCheck = Long.MAX_VALUE;
+
 		Map<DigitCount, PermutationCount> cubes = new HashMap<DigitCount, PermutationCount>();
-		for (long n = 1; true; n++)
+		for (long n = 1; n < lastToCheck; n++)
 		{
 			long nCubed = n * n * n;
 			DigitCount dc = new DigitCount(nCubed);
@@ -40,7 +43,21 @@ public class Problem62
 				cubes.get(dc).count++;
 				if (cubes.get(dc).count == perms)
 				{
-					return cubes.get(dc).lowestCube;
+					// It's possible that the first solution we find is not the
+					// lowest one so we can't just end here. Need to continue on
+					// until all cubes of the same number of digits are
+					// exhausted. Doesn't effect the 5 permutations case but
+					// does effect the 6 permutations case.
+					if (cubes.get(dc).lowestCube < result)
+					{
+						result = cubes.get(dc).lowestCube;
+
+						// last number whose cube shares the same number of
+						// digits as result
+						lastToCheck = (long) Math.pow(Math.pow(10, (((int) Math
+								.log10(result)) + 1)), 1.0 / 3.0);
+
+					}
 				}
 			}
 			else
@@ -48,6 +65,8 @@ public class Problem62
 				cubes.put(dc, new PermutationCount(nCubed, 1));
 			}
 		}
+
+		return result;
 	}
 
 	private class PermutationCount
