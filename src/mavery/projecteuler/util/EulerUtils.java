@@ -210,6 +210,7 @@ public class EulerUtils
 
 	/**
 	 * permutes input lexiographically, returns true if a permutation occured.
+	 * 
 	 * @param input
 	 */
 	public static boolean increment(int[] input)
@@ -245,5 +246,33 @@ public class EulerUtils
 		input[index2] = input[index1];
 		input[index1] = temp;
 	}
-	
+
+	/**
+	 * Returns true if b is a permutation of a.
+	 * 
+	 * @param a
+	 *            must be >= 0
+	 * @param b
+	 *            must be >= 0
+	 * @return true if the decimal representation of b is a permutation of the
+	 *         decimal representation of a. false otherwise.
+	 */
+	public static boolean arePermutations(long a, long b)
+	{
+		return Arrays.equals(getDigits(a), getDigits(b));
+	}
+
+	/**
+	 * Returns an array representing the digits in n
+	 */
+	private static int[] getDigits(long n)
+	{
+		int[] result = new int[10];
+		while (n != 0)
+		{
+			result[(int) (n % 10)]++;
+			n /= 10;
+		}
+		return result;
+	}
 }
