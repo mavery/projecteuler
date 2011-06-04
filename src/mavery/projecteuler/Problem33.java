@@ -62,28 +62,28 @@ public class Problem33
 	{
 		List<Fraction> result = new ArrayList<Fraction>();
 
-		int n1 = f.getNum() / 10;
-		int n2 = f.getNum() % 10;
-		int d1 = f.getDen() / 10;
-		int d2 = f.getDen() % 10;
+		int n1 = f.getIntNum() / 10;
+		int n2 = f.getIntNum() % 10;
+		int d1 = f.getIntDen() / 10;
+		int d2 = f.getIntDen() % 10;
 
 		// iterate over the four possible reductions
-		if (n2 != 0 & n2 == d2)
+		if (n2 != 0 & n2 == d2 && d1 != 0)
 		{
 			// second digits. eg. 12/32 -> 1/3
 			result.add(new Fraction(n1, d1));
 		}
-		if (n1 == d2)
+		if (n1 == d2 && d1 != 0)
 		{
 			// eg. 21/32 -> 1/3
 			result.add(new Fraction(n2, d1));
 		}
-		if (n2 == d1)
+		if (n2 == d1 && d2 != 0)
 		{
 			// second digits. eg. 12/23 -> 1/3
 			result.add(new Fraction(n1, d2));
 		}
-		if (n1 == d1)
+		if (n1 == d1 && d2 != 0)
 		{
 			// second digits. eg. 21/23 -> 1/3
 			result.add(new Fraction(n2, d2));

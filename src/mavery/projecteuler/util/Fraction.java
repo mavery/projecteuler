@@ -1,5 +1,7 @@
 package mavery.projecteuler.util;
 
+import java.math.BigInteger;
+
 /**
  * A class to represent an immutable fraction. Class is final to prevent
  * creating subclasses which could break immutability.
@@ -9,11 +11,16 @@ package mavery.projecteuler.util;
  */
 public final class Fraction
 {
+	/**
+	 * The fraction 1/1
+	 */
+	public static final Fraction ONE = new Fraction(1, 1);
+
 	/** Numerator */
-	private final int num;
+	private final BigInteger num;
 
 	/** Denominator */
-	private final int den;
+	private final BigInteger den;
 
 	/** A precomputed reduced fraction */
 	private Fraction reduced;
@@ -24,10 +31,34 @@ public final class Fraction
 	 * @param num
 	 *            numerator
 	 * @param den
-	 *            denominator
+	 *            denominator, must be non-zero
 	 */
-	public Fraction(int num, int den)
+	public Fraction(long num, long den)
 	{
+		if (den == 0)
+		{
+			throw new IllegalArgumentException(
+					"Cannot create fraction with denominator of 0");
+		}
+		this.num = BigInteger.valueOf(num);
+		this.den = BigInteger.valueOf(den);
+	}
+
+	/**
+	 * Creates a fraction
+	 * 
+	 * @param num
+	 *            numerator
+	 * @param den
+	 *            denominator, must be non-zero
+	 */
+	public Fraction(BigInteger num, BigInteger den)
+	{
+		if (den.equals(BigInteger.ZERO))
+		{
+			throw new IllegalArgumentException(
+					"Cannot create fraction with denominator of 0");
+		}
 		this.num = num;
 		this.den = den;
 	}
@@ -45,7 +76,7 @@ public final class Fraction
 	 * 
 	 * @return numerator
 	 */
-	public int getNum()
+	public BigInteger getNum()
 	{
 		return num;
 	}
@@ -55,9 +86,29 @@ public final class Fraction
 	 * 
 	 * @return denominator
 	 */
-	public int getDen()
+	public BigInteger getDen()
 	{
 		return den;
+	}
+
+	/**
+	 * Returns the int value of the numerator using BigInteger.intValue()
+	 * 
+	 * @return getNum().intValue()
+	 */
+	public int getIntNum()
+	{
+		return num.intValue();
+	}
+
+	/**
+	 * Returns the int value of the denominator using BigInteger.intValue()
+	 * 
+	 * @return getDen().intValue()
+	 */
+	public int getIntDen()
+	{
+		return den.intValue();
 	}
 
 	/**
@@ -69,21 +120,22 @@ public final class Fraction
 	{
 		if (reduced == null)
 		{
-			if (num == 0 || den == 0)
+			if (num.equals(BigInteger.ZERO))
 			{
 				reduced = this;
 			}
 			else
 			{
-				int gcd = EulerUtils.gcd(Math.abs(num), Math.abs(den));
+				BigInteger gcd = num.gcd(den);
 
-				if (den < 0)
+				if (den.compareTo(BigInteger.ZERO) < 0)
 				{
-					reduced = new Fraction(-num / gcd, -den / gcd);
+					reduced = new Fraction(num.divide(gcd).negate(), den
+							.divide(gcd).negate());
 				}
 				else
 				{
-					reduced = new Fraction(num / gcd, den / gcd);
+					reduced = new Fraction(num.divide(gcd), den.divide(gcd));
 				}
 			}
 		}
@@ -103,7 +155,7 @@ public final class Fraction
 		}
 		Fraction f1 = this.reduce();
 		Fraction f2 = ((Fraction) o).reduce();
-		return (f1.num == f2.num) && (f1.den == f2.den);
+		return f1.num.equals(f2.num) && f1.den.equals(f2.den);
 	}
 
 	/**
@@ -113,7 +165,7 @@ public final class Fraction
 	public int hashCode()
 	{
 		Fraction reduced = reduce();
-		return reduced.num ^ reduced.den;
+		return reduced.num.hashCode() ^ reduced.den.hashCode();
 	}
 
 	/**
@@ -125,6 +177,31 @@ public final class Fraction
 	 */
 	public Fraction multiply(Fraction f)
 	{
-		return new Fraction(this.num * f.num, this.den * f.den);
+		return new Fraction(this.num.multiply(f.num), this.den.multiply(f.den));
 	}
+
+	/**
+	 * Returns the reciprocal of this fraction
+	 * 
+	 * @return The reciprocal of this fraction
+	 */
+	public Fraction reciprocal()
+	{
+		return new Fraction(den, num);
+	}
+
+	/**
+	 * Returns a fraction whose value is (this + other). The result is not
+	 * reduced.
+	 * 
+	 * @param other
+	 *            the fraction to add to this
+	 * @return (this + other)
+	 */
+	public Fraction add(Fraction other)
+	{
+		return new Fraction(this.num.multiply(other.den).add(
+				other.num.multiply(this.den)), this.den.multiply(other.den));
+	}
+
 }
