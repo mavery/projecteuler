@@ -9,12 +9,17 @@ import java.math.BigInteger;
  * @author mavery
  * 
  */
-public final class Fraction
+public final class Fraction implements Comparable<Fraction>
 {
 	/**
 	 * The fraction 1/1
 	 */
 	public static final Fraction ONE = new Fraction(1, 1);
+
+	/**
+	 * The fraction 0
+	 */
+	public static final Fraction ZERO = new Fraction(0, 1);
 
 	/** Numerator */
 	private final BigInteger num;
@@ -204,4 +209,22 @@ public final class Fraction
 				other.num.multiply(this.den)), this.den.multiply(other.den));
 	}
 
+	/**
+	 * Compares two fractions numerically. To test if
+	 * <code>f1 <i>OP</i> f2</code> use
+	 * <code>f1.compareTo(f2) <i>OP</i> 0</code>.
+	 * 
+	 * @param other
+	 *            the fraction to compare to. must not be null.
+	 * @return 0 if this is equal to other, a negative number if this is less
+	 *         than other, a positive number if this is greater than other
+	 */
+	@Override
+	public int compareTo(Fraction other)
+	{
+		this.reduce();
+		other.reduce();
+		return (this.reduced.num.multiply(other.reduced.den)
+				.compareTo(other.reduced.num.multiply(this.reduced.den)));
+	}
 }
