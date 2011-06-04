@@ -11,14 +11,14 @@ public class FileUtils
 	/**
 	 * Returns a list of lines from the named file
 	 * 
-	 * @param filename The file to read from
+	 * @param filename
+	 *            The file to read from
 	 * @return A list of strings with the contents of the file
 	 * @throws IOException
 	 */
 	public static List<String> readLines(String filename) throws IOException
 	{
-		BufferedReader inputFile = new BufferedReader(new FileReader(
-				filename));
+		BufferedReader inputFile = new BufferedReader(new FileReader(filename));
 
 		List<String> result = new ArrayList<String>();
 
@@ -30,5 +30,22 @@ public class FileUtils
 		return result;
 	}
 
+	public static int[][] readMatrix(String filename, int rows, int columns) throws Exception
+	{
+		BufferedReader inputFile = new BufferedReader(new FileReader(filename));
+
+		int[][] result = new int[rows][columns];
+		for (int i = 0; i < rows; i++)
+		{
+			String line = inputFile.readLine();
+			String[] splitLine = line.split(" ");
+			for (int j = 0; j < columns; j++)
+			{
+				result[i][j] = Integer.parseInt(splitLine[j]);
+			}
+		}
+
+		return result;
+	}
 
 }

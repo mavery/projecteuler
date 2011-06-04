@@ -1,10 +1,11 @@
 package mavery.projecteuler;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import mavery.projecteuler.util.FileUtils;
 
 public class Problem11
 {
+	public static final int MATRIX_SIZE = 20;
+	public static final int LINE_LENGTH = 4;
 
 	/**
 	 * In the 2020 grid below, four numbers along a diagonal line have been
@@ -19,17 +20,17 @@ public class Problem11
 	 */
 	public static void main(String[] args) throws Exception
 	{
-		int[][] input = readMatrix();
+		int[][] input = FileUtils.readMatrix("resources/Problem11.txt", MATRIX_SIZE, MATRIX_SIZE);
 
 		int result = 0;
 
 		// horizontal lines
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < MATRIX_SIZE; i++)
 		{
-			for (int j = 0; j < 17; j++)
+			for (int j = 0; j < MATRIX_SIZE - LINE_LENGTH + 1; j++)
 			{
 				int currentRes = 1;
-				for (int k = 0; k < 4; k++)
+				for (int k = 0; k < LINE_LENGTH; k++)
 				{
 					currentRes *= input[i][j + k];
 				}
@@ -41,12 +42,12 @@ public class Problem11
 		}
 
 		// vertical lines
-		for (int i = 0; i < 17; i++)
+		for (int i = 0; i < MATRIX_SIZE - LINE_LENGTH + 1; i++)
 		{
-			for (int j = 0; j < 20; j++)
+			for (int j = 0; j < MATRIX_SIZE; j++)
 			{
 				int currentRes = 1;
-				for (int k = 0; k < 4; k++)
+				for (int k = 0; k < LINE_LENGTH; k++)
 				{
 					currentRes *= input[i + k][j];
 				}
@@ -58,12 +59,12 @@ public class Problem11
 		}
 
 		// diagonal forward
-		for (int i = 0; i < 17; i++)
+		for (int i = 0; i < MATRIX_SIZE - LINE_LENGTH + 1; i++)
 		{
-			for (int j = 0; j < 17; j++)
+			for (int j = 0; j < MATRIX_SIZE - LINE_LENGTH + 1; j++)
 			{
 				int currentRes = 1;
-				for (int k = 0; k < 4; k++)
+				for (int k = 0; k < LINE_LENGTH; k++)
 				{
 					currentRes *= input[i + k][j + k];
 				}
@@ -75,12 +76,12 @@ public class Problem11
 		}
 
 		// diagonal backwards
-		for (int i = 3; i < 20; i++)
+		for (int i = 3; i < MATRIX_SIZE; i++)
 		{
-			for (int j = 0; j < 17; j++)
+			for (int j = 0; j < MATRIX_SIZE - LINE_LENGTH + 1; j++)
 			{
 				int currentRes = 1;
-				for (int k = 0; k < 4; k++)
+				for (int k = 0; k < LINE_LENGTH; k++)
 				{
 					currentRes *= input[i - k][j + k];
 				}
@@ -93,24 +94,4 @@ public class Problem11
 
 		System.out.println(result);
 	}
-
-	public static int[][] readMatrix() throws Exception
-	{
-		BufferedReader inputFile = new BufferedReader(new FileReader(
-				"resources/Problem11.txt"));
-
-		int[][] result = new int[20][20];
-		for (int i = 0; i < 20; i++)
-		{
-			String line = inputFile.readLine();
-			String[] splitLine = line.split(" ");
-			for (int j = 0; j < 20; j++)
-			{
-				result[i][j] = Integer.parseInt(splitLine[j]);
-			}
-		}
-
-		return result;
-	}
-
 }
