@@ -1,7 +1,5 @@
 package mavery.projecteuler;
 
-import java.util.Arrays;
-
 import mavery.projecteuler.util.PrimeNumberSieve;
 
 public class Problem231
@@ -20,56 +18,35 @@ public class Problem231
 	public static void main(String[] args)
 	{
 		PrimeNumberSieve sieve = new PrimeNumberSieve(N + 1);
-		int[] primes = new int[sieve.getPrimeList().size()];
-		int count = 0;
-		for (int p : sieve.getPrimeList())
-		{
-			primes[count++] = p;
-		}
-
-		// n will become the prime factors of N!, r and nmr are the prime
-		// factors of R! and (N-R)! respectively
-		int[] n = new int[N + 1];
-		int[] nmr = null, r = null;
-
-		for (int i = 2; i <= N; i++)
-		{
-			int current = i;
-			for (int j = 0; j < primes.length; j++)
-			{
-				if (current == 1 || sieve.isPrime(current))
-				{
-					break;
-				}
-				while (current % primes[j] == 0)
-				{
-					current /= primes[j];
-					n[primes[j]]++;
-				}
-			}
-			n[current]++;
-
-			if (i == N - R)
-			{
-				nmr = Arrays.copyOf(n, n.length);
-			}
-			if (i == R)
-			{
-				r = Arrays.copyOf(n, n.length);
-			}
-		}
 
 		long result = 0;
-		for (int i = 2; i <= N; i++)
+		for (int p : sieve.getPrimeList())
 		{
-			int current = n[i] - r[i] - nmr[i];
+			int current = getPrimeFactorsInFactorial(p, N)
+					- getPrimeFactorsInFactorial(p, R)
+					- getPrimeFactorsInFactorial(p, N - R);
 			if (current > 0)
 			{
-				result += current * i;
+				result += current * p;
 			}
 		}
-
 		System.out.println(result);
 	}
 
+	/**
+	 * Returns the multiplicity of prime factor p in n!
+	 * @param p prime factor
+	 * @param n the factorial to look at
+	 * @return multiplicity of p in n!.
+	 */
+	public static int getPrimeFactorsInFactorial(int p, int n)
+	{
+		int result = 0;
+		while (n > 1)
+		{
+			n /= p;
+			result += n;
+		}
+		return result;
+	}
 }
