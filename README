@@ -2,4 +2,4 @@ Solutions to the problems at http://projecteuler.net.
 
 All solutions run in under a minute on a modern machine. Most solutions will feature some optimisations but may not contain all possible optimisations. Some pieces of code, particularly those in the util package, may be improved in future if it becomes necessary but most solutions will not be improved beyond 'fast enough'. 
 
-The whole thing is an Eclipse project. Find Eclipse at http://www.eclipse.org/ and the EGit plugin at http://www.eclipse.org/egit/.
+The whole thing is an Eclipse project. Find Eclipse at http://eclipse.org/ and the EGit plugin at http://www.eclipse.org/egit/.
