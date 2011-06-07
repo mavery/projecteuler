@@ -83,9 +83,10 @@ public class PrimeNumberSieve
 					primeList.add(i);
 				}
 			}
+			primeList = Collections.unmodifiableList(primeList);
 		}
 
-		return Collections.unmodifiableList(primeList);
+		return primeList;
 	}
 	
 	/**
