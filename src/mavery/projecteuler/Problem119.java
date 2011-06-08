@@ -10,7 +10,7 @@ public class Problem119
 	public static final int TARGET_N = 30;
 
 	// this is the maximum digital sum of any long
-	private static final int MAX_DIGIT_SUM = 9 * (int) Math.log10(Long.MAX_VALUE) + 1;
+	private static final int MAX_DIGIT_SUM = 9 * ((int) Math.log10(Long.MAX_VALUE) + 1);
 
 	/**
 	 * The number 512 is interesting because it is equal to the sum of its
