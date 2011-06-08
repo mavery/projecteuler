@@ -36,8 +36,7 @@ public class Problem119
 		long result = 0;
 		while (count < 30)
 		{
-			PowerBasePair pair = queue.element();
-			queue.remove();
+			PowerBasePair pair = queue.remove();
 			if (EulerUtils.sumDigits(pair.power) == pair.base)
 			{
 				count++;
