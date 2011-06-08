@@ -43,7 +43,7 @@ public class EulerUtils
 	}
 
 	/**
-	 * 
+	 * Returns the sum of the decimal digits of input
 	 * @param input
 	 * @return sum of the digits in input
 	 */
@@ -56,6 +56,24 @@ public class EulerUtils
 		{
 			result += strInput.charAt(i) - '0';
 		}
+		return result;
+	}
+
+	/**
+	 * Returns the sum of the decimal digits of input
+	 * @param input must be > 0
+	 * @return sum of the digits in input
+	 */
+	public static int sumDigits(long input)
+	{
+		int result = 0;
+
+		while (input > 0)
+		{
+			result += input % 10;
+			input /= 10;
+		}
+		
 		return result;
 	}
 
