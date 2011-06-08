@@ -7,8 +7,10 @@ import mavery.projecteuler.util.EulerUtils;
 
 public class Problem119
 {
+	public static final int TARGET_N = 30;
+
 	// this is the maximum digital sum of any long
-	public static final int MAX_N = 9 * (int) Math.log10(Long.MAX_VALUE) + 1;
+	private static final int MAX_DIGIT_SUM = 9 * (int) Math.log10(Long.MAX_VALUE) + 1;
 
 	/**
 	 * The number 512 is interesting because it is equal to the sum of its
@@ -27,14 +29,14 @@ public class Problem119
 		// maintains a priority queue of n^m, then finds which ones have the
 		// correct digital sum.
 		Queue<PowerBasePair> queue = new PriorityQueue<PowerBasePair>();
-		for (long i = 2; i <= MAX_N; i++)
+		for (long i = 2; i <= MAX_DIGIT_SUM; i++)
 		{
 			queue.add(new PowerBasePair(i * i, i));
 		}
 
 		int count = 0;
 		long result = 0;
-		while (count < 30)
+		while (count < TARGET_N)
 		{
 			PowerBasePair pair = queue.remove();
 			if (EulerUtils.sumDigits(pair.power) == pair.base)
