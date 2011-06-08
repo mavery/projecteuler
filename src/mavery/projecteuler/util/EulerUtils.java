@@ -269,4 +269,73 @@ public class EulerUtils
 		}
 		return true;
 	}
+
+	/**
+	 * Returns an array containing the totients of all integers n from 0 <= n <=
+	 * limit using a given prime number sieve.
+	 * 
+	 * @param limit
+	 *            must be > 0
+	 * @param sieve
+	 *            a prime number sieve to use in the calculation of totients.
+	 *            limit of the sieve must be >= limit. must not be null.
+	 * @return an array of size (limit + 1) where array[n] = phi(n)
+	 */
+	public static int[] getTotients(int limit, PrimeNumberSieve sieve)
+	{
+		if (sieve == null)
+		{
+			throw new IllegalArgumentException("sieve must not be null");
+		}
+		if (sieve.getLimit() < limit)
+		{
+			throw new IllegalArgumentException("sieve.getLimit() of "
+					+ sieve.getLimit() + " was less than limit of " + limit);
+		}
+
+		int[] result = new int[limit + 1];
+		// calculate all totients
+		for (int i = 2; i < limit; i++)
+		{
+			if (sieve.isPrime(i))
+			{
+				result[i] = i - 1;
+				continue;
+				// no need to test this case
+			}
+
+			for (int p : sieve.getPrimeList())
+			{
+				if (i % p == 0)
+				{
+					result[i] = result[i / p] * p;
+					if ((i / p) % p != 0)
+					{
+						// this casting is required to avoid overflow. could
+						// have just made the totients array a long[] the first
+						// place but that required too much ram
+						long temp = ((long) (result[i])) * (p - 1) / p;
+						result[i] = (int) temp;
+					}
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Returns an array containing the totients of all integers n from 0 <= n <=
+	 * limit
+	 * 
+	 * @param limit
+	 *            must be > 0
+	 * @return an array of size (limit + 1) where array[n] = phi(n)
+	 */
+	public static int[] getTotients(int limit)
+	{
+		return getTotients(limit, new PrimeNumberSieve(limit));
+	}
+
 }

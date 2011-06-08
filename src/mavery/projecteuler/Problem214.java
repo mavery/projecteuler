@@ -1,5 +1,6 @@
 package mavery.projecteuler;
 
+import mavery.projecteuler.util.EulerUtils;
 import mavery.projecteuler.util.PrimeNumberSieve;
 
 /**
@@ -33,35 +34,7 @@ public class Problem214
 	{
 		PrimeNumberSieve sieve = new PrimeNumberSieve(LIMIT);
 
-		int[] totients = new int[LIMIT];
-
-		// calculate all totients
-		for (int i = 2; i < LIMIT; i++)
-		{
-			if (sieve.isPrime(i))
-			{
-				totients[i] = i - 1;
-				continue;
-				// no need to test this case
-			}
-
-			for (int p : sieve.getPrimeList())
-			{
-				if (i % p == 0)
-				{
-					totients[i] = totients[i / p] * p;
-					if ((i / p) % p != 0)
-					{
-						// this casting is required to avoid overflow. could
-						// have just made the totients array a long[] the first
-						// place but that required too much ram
-						long temp = ((long) (totients[i])) * (p - 1) / p;
-						totients[i] = (int) temp;
-					}
-					break;
-				}
-			}
-		}
+		int[] totients = EulerUtils.getTotients(LIMIT, sieve);
 
 		long result = 0;
 

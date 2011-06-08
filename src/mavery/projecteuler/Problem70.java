@@ -1,7 +1,6 @@
 package mavery.projecteuler;
 
 import mavery.projecteuler.util.EulerUtils;
-import mavery.projecteuler.util.PrimeNumberSieve;
 
 public class Problem70
 {
@@ -23,35 +22,10 @@ public class Problem70
 	 */
 	public static void main(String[] args)
 	{
-		PrimeNumberSieve sieve = new PrimeNumberSieve(LIMIT);
+		int[] totients = EulerUtils.getTotients(LIMIT);
 
-		long[] totients = new long[LIMIT];
-		long result = 0;
+		int result = 0;
 		double bestRatio = Double.MAX_VALUE;
-
-		// calculate all totients
-		for (int i = 2; i < LIMIT; i++)
-		{
-			if (sieve.isPrime(i))
-			{
-				totients[i] = i - 1;
-				continue;
-				// no need to test this case
-			}
-
-			for (int p : sieve.getPrimeList())
-			{
-				if (i % p == 0)
-				{
-					totients[i] = totients[i / p] * p;
-					if ((i / p) % p != 0)
-					{
-						totients[i] = totients[i] * (p - 1) / p;
-					}
-					break;
-				}
-			}
-		}
 
 		// find best ratio, starting from the highest number where low ratios
 		// are more likely.
