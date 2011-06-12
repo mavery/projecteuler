@@ -36,7 +36,7 @@ public class Problem49
 				if (EulerUtils.arePermutations(i, i + j, i + 2 * j)
 						&& sieve.isPrime(i + 2 * j) && sieve.isPrime(i + j))
 				{
-					System.out.printf("%d%d%d\n", i, i + j, i + 2 * j);
+					System.out.printf("%d%d%d%n", i, i + j, i + 2 * j);
 				}
 			}
 		}

@@ -21,7 +21,7 @@ public class Problem63
 				if (j == (int) (Math.log10(Math.pow(i, j)) + 1))
 				{
 					result++;
-					System.out.printf("%d^%d - %d digits\n", i, j, j);
+					System.out.printf("%d^%d - %d digits%n", i, j, j);
 				}
 			}
 		}

@@ -86,7 +86,7 @@ public class Problem59
 				{
 					result += (int) decrypted.charAt(i);
 				}
-				System.out.printf("KEY: \"%s\"\nMESSAGE: \"%s\"\nVALUE: %d\n", key, decrypted.toString(), result);
+				System.out.printf("KEY: \"%s\"%nMESSAGE: \"%s\"%nVALUE: %d%n", key, decrypted.toString(), result);
 			}
 		}
 	}
