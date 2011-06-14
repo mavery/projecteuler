@@ -5,13 +5,13 @@ import java.util.List;
 
 /**
  * Needs a significant amount of ram to run for the full solution. I recommend
- * running with the -Xmx768M argument on the command line.
+ * running with the -Xmx600M argument on the command line.
  */
 public class Problem341
 {
-	public static final int LIMIT = 1000;
+	public static final int LIMIT = 1000000;
 
-	private static final long ARRAY_LIMIT = 1000000;
+	private static final long ARRAY_LIMIT = 200000000000L;
 
 	private static List<Long> golombs;
 
@@ -30,74 +30,49 @@ public class Problem341
 	 */
 	public static void main(String[] args)
 	{
+		populateGolombList(ARRAY_LIMIT);
+
+		long result = 1;
+		long sum = 0;
+		int currentIndex = 0;
+		long n = 2;
+		long target = n * n * n;
+		while (n < LIMIT)
+		{
+			long diff = golombs.get(currentIndex + 1)
+					- golombs.get(currentIndex);
+			long nextIncrement = diff * currentIndex;
+			if (sum + nextIncrement > target)
+			{
+				long count = getCount(0, diff, currentIndex, target - sum);
+				result += golombs.get(currentIndex) + count;
+				n++;
+				target = n * n * n;
+			}
+			sum += nextIncrement;
+			currentIndex++;
+		}
+		System.out.println(result);
+	}
+
+	private static void populateGolombList(long limit)
+	{
 		golombs = new ArrayList<Long>();
 		golombs.add(0L);
 		golombs.add(1L);
 		golombs.add(2L);
 		golombs.add(4L);
 
-		while (golombs.get(golombs.size() - 1) < ARRAY_LIMIT)
+		long last = 2;
+		long current;
+		while (golombs.get(golombs.size() - 1) < limit)
 		{
-			golombs
-					.add(golombs.get(golombs.size() - 1)
-							+ g(golombs.size() - 1));
-		}
-
-		System.out.printf("%d %d%n", g(1000), g(1000000));
-
-		long result = 0;
-		long sum = 0;
-		long count = 0;
-		long last = 0;
-		long current = 0;
-		long n = 1;
-		while (n < LIMIT)
-		{
-			long target = n * n * n;
-			current = g(count, last);
-			sum += current;
+			current = g(golombs.size() - 1, last);
+			golombs.add(golombs.get(golombs.size() - 1) + current);
 			last = current;
-			while (sum >= target)
-			{
-				result += count;
-				// System.out.printf("%d %d %d%n", n, target, g(count));
-				n++;
-				target = n * n * n;
-			}
-			count++;
-
 		}
-		System.out.println(result);
-	}
-
-	/**
-	 * My own binary search. Could probably do this using
-	 * Collections.binarySearch but the behaviour of that method when it doesn't
-	 * find an exact match is quite awkward to work with here.
-	 */
-	private static long g(long n)
-	{
-		int start = 0;
-		int end = golombs.size() - 1;
-		while (start + 1 < end)
-		{
-			int mid = (start + end) / 2;
-			long midValue = golombs.get(mid);
-			if (midValue == n)
-			{
-				return mid;
-			}
-			else if (midValue > n)
-			{
-				end = mid;
-			}
-			else
-			{
-				start = mid;
-			}
-		}
-
-		return start;
+		
+		System.out.printf("golombs done. %d elements.%n", golombs.size());
 	}
 
 	private static long g(long n, long last)
@@ -112,4 +87,27 @@ public class Problem341
 		}
 	}
 
+	private static long getCount(long start, long end, long increment,
+			long target)
+	{
+		while (start + 1 < end)
+		{
+			long mid = (start + end) / 2;
+			long midValue = mid * increment;
+			if (midValue == target)
+			{
+				return mid - 1;
+			}
+			else if (midValue > target)
+			{
+				end = mid;
+			}
+			else
+			{
+				start = mid;
+			}
+		}
+
+		return start;
+	}
 }
