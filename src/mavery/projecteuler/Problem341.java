@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Not working for the full case yet, only for the 1->10^3 case. I think I
- * should be able to find a recursive definition of G(n) but I don't have it
- * yet.
+ * Needs a significant amount of ram to run for the full solution. I recommend
+ * running with the -Xmx768M argument on the command line.
  */
 public class Problem341
 {
@@ -25,9 +24,9 @@ public class Problem341
 	 * 
 	 * 
 	 * You are given that G(10^3) = 86, G(10^6) = 6137. You are also given that
-	 * sum G(n^3) = 153506976 for 1 n 10^3.
+	 * sum G(n^3) = 153506976 for 1 <= n < 10^3.
 	 * 
-	 * Find sum G(n3) for 1 <= n <= 10^6.
+	 * Find sum G(n3) for 1 <= n < 10^6.
 	 */
 	public static void main(String[] args)
 	{
@@ -49,15 +48,19 @@ public class Problem341
 		long result = 0;
 		long sum = 0;
 		long count = 0;
+		long last = 0;
+		long current = 0;
 		long n = 1;
 		while (n < LIMIT)
 		{
 			long target = n * n * n;
-			sum += g(count);
+			current = g(count, last);
+			sum += current;
+			last = current;
 			while (sum >= target)
 			{
 				result += count;
-				System.out.printf("%d %d %d%n", n, target, g(count));
+				// System.out.printf("%d %d %d%n", n, target, g(count));
 				n++;
 				target = n * n * n;
 			}
@@ -96,4 +99,17 @@ public class Problem341
 
 		return start;
 	}
+
+	private static long g(long n, long last)
+	{
+		if (golombs.get((int) last + 1) == n)
+		{
+			return last + 1;
+		}
+		else
+		{
+			return last;
+		}
+	}
+
 }
