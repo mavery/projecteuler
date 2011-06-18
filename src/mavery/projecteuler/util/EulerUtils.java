@@ -355,5 +355,25 @@ public class EulerUtils
 	{
 		return getTotients(limit, new PrimeNumberSieve(limit));
 	}
+	
+	private static int[] factorials = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320,
+			362880 };
+	/**
+	 * Returns the sum of the factorials of the digits of n
+	 * 
+	 * @param n integer greater than zero
+	 * @return sum of the factorials of the decimal digits of n.  
+	 */
+	public static int sumOfFactorialsOfDigits(int n)
+	{
+		int result = 0;
+		while (n > 0)
+		{
+			result += factorials[n % 10];
+			n /= 10;
+		}
+		return result;
+	}
+
 
 }

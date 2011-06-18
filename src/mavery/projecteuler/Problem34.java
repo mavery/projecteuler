@@ -1,11 +1,10 @@
 package mavery.projecteuler;
 
+import mavery.projecteuler.util.EulerUtils;
+
 public class Problem34
 {
-	// precomputed for speeeeed
-	private static int[] factorials = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320,
-			362880 };
-
+	public static final int LIMIT = 362880 * 7; // 9! * 7 digits
 	/**
 	 * 145 is a curious number, as 1! + 4! + 5! = 1 + 24 + 120 = 145.
 	 * 
@@ -17,32 +16,13 @@ public class Problem34
 	public static void main(String[] args)
 	{
 		int result = 0;
-		for (int i = 3; i < factorials[9] * 7; i++)
+		for (int i = 10; i <= LIMIT; i++)
 		{
-			if (i == sumOfFactorialsOfDigits(i))
+			if (i == EulerUtils.sumOfFactorialsOfDigits(i))
 			{
-				System.out.println(i);
 				result += i;
 			}
 		}
 		System.out.println(result);
 	}
-
-	/**
-	 * Returns the sum of the factorials of the digits of n
-	 * 
-	 * @param n
-	 * @return
-	 */
-	public static int sumOfFactorialsOfDigits(int n)
-	{
-		int result = 0;
-		while (n > 0)
-		{
-			result += factorials[n % 10];
-			n /= 10;
-		}
-		return result;
-	}
-
 }
