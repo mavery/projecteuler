@@ -85,11 +85,16 @@ public class EulerUtils
 	public static int sumOfProperDivisors(int input)
 	{
 		int result = 0;
-		for (int i = 1; i < input; i++)
+		int max = (int) Math.sqrt(input);
+		for (int i = 1; i <= max; i++)
 		{
 			if (input % i == 0)
 			{
 				result += i;
+				if (i != 1 && i * i != input)
+				{
+					result += (input / i);
+				}
 			}
 		}
 		return result;
@@ -374,6 +379,5 @@ public class EulerUtils
 		}
 		return result;
 	}
-
 
 }
