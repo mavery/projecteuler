@@ -1,15 +1,10 @@
 package mavery.projecteuler;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
-import java.math.RoundingMode;
-
 public class Problem100
 {
-	public static final BigDecimal MINIMUM = BigDecimal.valueOf(1_000_000_000_000L);
+	public static final long MINIMUM = 1_000_000_000_000L;
 
-	private static final BigDecimal ROOT_2 = BigDecimal.valueOf(Math.sqrt(2.0));
+	private static final double ROOT_2 = Math.sqrt(2.0);
 
 	/**
 	 * If a box contains twenty-one coloured discs, composed of fifteen blue
@@ -27,38 +22,46 @@ public class Problem100
 	 */
 	public static void main(String[] args)
 	{
-		for (int i = 1; true; i++)
+		long b = 0;
+		long r = 0;
+		for (int i = 1; b + r <= MINIMUM; i++)
 		{
-			BigDecimal b = b(i);
-			BigDecimal r = r(i);
-			System.out.printf("Blue = %s, Red = %s\n", b, r);
-			if (b.add(r).compareTo(MINIMUM) > 0)
-			{
-				return;
-			}
+			b = b(i);
+			r = r(i);
+			System.out.printf("Blue = %d, Red = %d\n", b, r);
 		}
 	}
 
-	public static BigDecimal b(int n)
+	/**
+	 * Number of blue coins. @see <a href=
+	 * "http://www.wolframalpha.com/input/?i=2b%28b-1%29+%3D+%28b%2Br%29%28b%2Br-1%29"
+	 * >WolframAlpha</a> for algorithm details.
+	 */
+	public static long b(int n)
 	{
-		BigDecimal result = BigDecimal.ZERO;
-		result = result.add(BigDecimal.valueOf(2).multiply(BigDecimal.valueOf(3).subtract(BigDecimal.valueOf(2).multiply(ROOT_2)).pow(n)));
-		result = result.add(ROOT_2.multiply(BigDecimal.valueOf(3).subtract(BigDecimal.valueOf(2).multiply(ROOT_2)).pow(n)));
-		result = result.add(BigDecimal.valueOf(2).multiply(BigDecimal.valueOf(3).add(BigDecimal.valueOf(2).multiply(ROOT_2)).pow(n)));
-		result = result.subtract(ROOT_2.multiply(BigDecimal.valueOf(3).add(BigDecimal.valueOf(2).multiply(ROOT_2)).pow(n)));
-		result = result.add(BigDecimal.valueOf(4));
-		result = result.divide(BigDecimal.valueOf(8));
-		return result.setScale(0, RoundingMode.HALF_UP);
+		double result = 0.0;
+		result += 2 * Math.pow(3.0 - 2.0 * ROOT_2, n);
+		result += ROOT_2 * Math.pow(3.0 - 2.0 * ROOT_2, n);
+		result += 2 * Math.pow(3.0 + 2.0 * ROOT_2, n);
+		result -= ROOT_2 * Math.pow(3.0 + 2.0 * ROOT_2, n);
+		result += 4.0;
+		result /= 8.0;
+		return Math.round(result);
 	}
 
-	public static BigDecimal r(int n)
+	/**
+	 * Number of red coins. @see <a href=
+	 * "http://www.wolframalpha.com/input/?i=2b%28b-1%29+%3D+%28b%2Br%29%28b%2Br-1%29"
+	 * >WolframAlpha</a> for algorithm details.
+	 */
+	public static long r(int n)
 	{
-		BigDecimal result = BigDecimal.ZERO;
-		result = result.subtract(BigDecimal.valueOf(4).multiply(BigDecimal.valueOf(3).subtract(BigDecimal.valueOf(2).multiply(ROOT_2)).pow(n)));
-		result = result.subtract(BigDecimal.valueOf(3).multiply(ROOT_2).multiply(BigDecimal.valueOf(3).subtract(BigDecimal.valueOf(2).multiply(ROOT_2)).pow(n)));
-		result = result.subtract(BigDecimal.valueOf(4).multiply(BigDecimal.valueOf(3).add(BigDecimal.valueOf(2).multiply(ROOT_2)).pow(n)));
-		result = result.add(BigDecimal.valueOf(3).multiply(ROOT_2).multiply(BigDecimal.valueOf(3).add(BigDecimal.valueOf(2).multiply(ROOT_2)).pow(n)));
-		result = result.divide(BigDecimal.valueOf(8));
-		return result.setScale(0, RoundingMode.HALF_UP);
+		double result = 0.0;
+		result -= 4 * Math.pow(3.0 - 2.0 * ROOT_2, n);
+		result -= 3.0 * ROOT_2 * Math.pow(3.0 - 2.0 * ROOT_2, n);
+		result -= 4 * Math.pow(3.0 + 2.0 * ROOT_2, n);
+		result += 3.0 * ROOT_2 * Math.pow(3.0 + 2.0 * ROOT_2, n);
+		result /= 8.0;
+		return Math.round(result);
 	}
 }
