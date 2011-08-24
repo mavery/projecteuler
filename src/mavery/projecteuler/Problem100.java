@@ -33,7 +33,9 @@ public class Problem100
 	}
 
 	/**
-	 * Number of blue coins. @see <a href=
+	 * Number of blue coins. 
+	 * 
+	 * @see <a href=
 	 * "http://www.wolframalpha.com/input/?i=2b%28b-1%29+%3D+%28b%2Br%29%28b%2Br-1%29"
 	 * >WolframAlpha</a> for algorithm details.
 	 */
@@ -50,7 +52,9 @@ public class Problem100
 	}
 
 	/**
-	 * Number of red coins. @see <a href=
+	 * Number of red coins.
+	 * 
+	 * @see <a href=
 	 * "http://www.wolframalpha.com/input/?i=2b%28b-1%29+%3D+%28b%2Br%29%28b%2Br-1%29"
 	 * >WolframAlpha</a> for algorithm details.
 	 */
