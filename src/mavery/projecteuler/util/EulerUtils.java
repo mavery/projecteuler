@@ -417,4 +417,41 @@ public class EulerUtils
 		}
 		return tiles[length];
 	}
+
+	/**
+	 * Calculates the number of tile patterns possible made of black tiles of
+	 * length 1 and red tiles of a given minimum length, with the condition that
+	 * two red tiles may not be adjacent.
+	 * 
+	 * @see <a href="http://projecteuler.net/index.php?section=problems&id=114">
+	 *      Problem 114</a>
+	 * @see <a href="http://projecteuler.net/index.php?section=problems&id=115">
+	 *      Problem 115</a>
+	 * 
+	 * @param length
+	 *            The length of the area to tile
+	 * @param minRed
+	 *            The minimum length of a red tile
+	 * @return The total number of possible patterns
+	 */
+	public static long redBlackPatterns(int length, int minRed)
+	{
+		long[][] tiles = new long[2][length + 1];
+		tiles[0][0] = 1;
+		tiles[1][0] = 0;
+
+		for (int i = 0; i < length; i++)
+		{
+			// Adding a black tile
+			tiles[0][i + 1] += tiles[0][i] + tiles[1][i];
+
+			// Adding a red tile
+			for (int j = minRed; j <= length - i; j++)
+			{
+				tiles[1][i + j] += tiles[0][i];
+			}
+		}
+		return tiles[0][length] + tiles[1][length];
+	}
+
 }
