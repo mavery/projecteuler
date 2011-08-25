@@ -44,6 +44,7 @@ public class EulerUtils
 
 	/**
 	 * Returns the sum of the decimal digits of input
+	 * 
 	 * @param input
 	 * @return sum of the digits in input
 	 */
@@ -61,7 +62,9 @@ public class EulerUtils
 
 	/**
 	 * Returns the sum of the decimal digits of input
-	 * @param input must be > 0
+	 * 
+	 * @param input
+	 *            must be > 0
 	 * @return sum of the digits in input
 	 */
 	public static int sumDigits(long input)
@@ -73,7 +76,7 @@ public class EulerUtils
 			result += input % 10;
 			input /= 10;
 		}
-		
+
 		return result;
 	}
 
@@ -360,14 +363,16 @@ public class EulerUtils
 	{
 		return getTotients(limit, new PrimeNumberSieve(limit));
 	}
-	
+
 	private static int[] factorials = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320,
 			362880 };
+
 	/**
 	 * Returns the sum of the factorials of the digits of n
 	 * 
-	 * @param n integer greater than zero
-	 * @return sum of the factorials of the decimal digits of n.  
+	 * @param n
+	 *            integer greater than zero
+	 * @return sum of the factorials of the decimal digits of n.
 	 */
 	public static int sumOfFactorialsOfDigits(int n)
 	{
@@ -380,4 +385,36 @@ public class EulerUtils
 		return result;
 	}
 
+	/**
+	 * Returns how many possible permutations of tiles there are in a line of a
+	 * given length and with tiles of given lengths.
+	 * 
+	 * @see <a href="http://projecteuler.net/index.php?section=problems&id=116">
+	 *      Problem 116</a>
+	 * @see <a href="http://projecteuler.net/index.php?section=problems&id=117">
+	 *      Problem 117</a>
+	 * 
+	 * @param length
+	 *            The length of the area to tile
+	 * @param tileSizes
+	 *            The sizes of each of the individual tiles
+	 * @return The number of possible patterns of tiles
+	 */
+	public static long tilePatterns(int length, int... tileSizes)
+	{
+		long[] tiles = new long[length + 1];
+		tiles[0] = 1;
+
+		for (int i = 0; i < tiles.length; i++)
+		{
+			for (int tileSize : tileSizes)
+			{
+				if (i + tileSize <= length)
+				{
+					tiles[i + tileSize] += tiles[i];
+				}
+			}
+		}
+		return tiles[length];
+	}
 }
