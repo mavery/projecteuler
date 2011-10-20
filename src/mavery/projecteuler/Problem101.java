@@ -49,7 +49,7 @@ public class Problem101
 
 		for (int i = 1; i <= 10; i++)
 		{
-			result += bop(i);
+			result += firstIncorrectTerm(i);
 		}
 		System.out.println(result);
 	}
@@ -63,11 +63,11 @@ public class Problem101
 	 * @return The first term of the polynomial function that does not match
 	 *         u(x)
 	 */
-	public static long bop(int n)
+	public static long firstIncorrectTerm(int n)
 	{
 		for (int i = 1; /* no test */; i++)
 		{
-			long current = op(i, n);
+			long current = optimalPolynomial(i, n);
 			if (u(i) != current)
 			{
 				return current;
@@ -91,7 +91,7 @@ public class Problem101
 	 *      href="http://mathworld.wolfram.com/LagrangeInterpolatingPolynomial.html">Formula
 	 *      for the Lagrange Interpolating Polynomial</a>
 	 */
-	public static long op(int x, int n)
+	public static long optimalPolynomial(int x, int n)
 	{
 		long result = 0;
 		for (int j = 1; j <= n; j++)
